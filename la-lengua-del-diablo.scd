@@ -40,7 +40,7 @@ var paisajes = [
 ];
 var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes: paisajes);
 
-(0..500).inject(
+(0..500).inject(//hay un bug cuandos e compila con números muy grandes en el array de inject
 	(
 		secuencia: List [], // (sonido: Buffer, silencio: Number)
 		duracion: 0, // Number -- duración acumulada
