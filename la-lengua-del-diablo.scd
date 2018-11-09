@@ -65,7 +65,3 @@ var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes:
 
 
 )
-
-
-[1,2,3,4].inject(0, {|acc, el, i| })
-
