@@ -16,7 +16,8 @@ var miniSecuencias = [
 var silences = (5..(30*60));
 var midpoint = (silences.normalizeSum.size/3*2).asInteger;
 var firstPart = silences[0..midpoint]; //primera parte de la curva de ponderancia
-var weights = (firstPart.mirror)[0..silences.size].normalizeSum.postln;
+//var weights = (firstPart.mirror)[0..silences.size].normalizeSum.postln; //el bug lo produce la suma normalizada
+var weights = (firstPart.mirror)[0..silences.size].postln;//si lo quitamos ya no hay más bug jeje
 ~getSilence = {silences.wchoose(weights);}
 )
 
@@ -40,7 +41,7 @@ var paisajes = [
 ];
 var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes: paisajes);
 
-(0..500).inject(//hay un bug cuandos e compila con números muy grandes en el array de inject
+(0..10000).inject(//puedes probar con 10000 ejemplares
 	(
 		secuencia: List [], // (sonido: Buffer, silencio: Number)
 		duracion: 0, // Number -- duración acumulada
