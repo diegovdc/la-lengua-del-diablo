@@ -60,7 +60,20 @@ var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes:
 			indexes: indexes
 		)
 	}
+).secuencia
+
+
 )
 
 
+(
+Task({
+	~secuencia.do({|event|
+		var wait_ = event.silencio+event.dur;
+		("Esto debería de darle play a" + event.sonido.buffer).postln;
+		("y deberíamos esperar" + wait_ + "segundos, descomentado la siguiente línea \n").postln;
+		// wait_.wait;
+		2.wait; // debería de usarse el código de arriba, pero de momento usamos este para probar
+	})
+}).play
 )
