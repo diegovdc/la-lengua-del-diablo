@@ -40,7 +40,7 @@ var paisajes = [
 ];
 var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes: paisajes);
 
-(0..500).inject(//hay un bug cuandos e compila con números muy grandes en el array de inject
+~secuencia = (0..50).inject(
 	(
 		secuencia: List [], // (sonido: Buffer, silencio: Number)
 		duracion: 0, // Number -- duración acumulada
@@ -55,12 +55,11 @@ var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes:
 		var indexes = acc.indexes;
 		indexes[soundType] = soundIndex;
 		(
-			secuencia: acc.secuencia.add((sonido: sonido, silencio: silencio)),
+			secuencia: acc.secuencia.add((sonido: sonido, dur: sonido.dur,  silencio: silencio)),
 			duracion: acc.duracion + sonido.dur + silencio,
 			indexes: indexes
 		)
 	}
-
 )
 
 
