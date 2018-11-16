@@ -80,9 +80,9 @@ Task({
 
 s.boot
 
-~b = SoundFile.collect("/home/atsintli/Music/*", s) //supongo que sería algo así, pero no se como sacar los archivos para reproducirlos
+~b = SoundFile.collectIntoBuffers("/home/atsintli/Music/*", s) //supongo que sería algo así . . .
 ~b.inspect
-~b.(6)
+~b.[1]
 
 (
 SynthDef(\buffer, {|bufnum, numchanel = 2, rate = 1|
@@ -92,5 +92,5 @@ SynthDef(\buffer, {|bufnum, numchanel = 2, rate = 1|
 }).send(s);
 )
 
-a = Synth(\buffer, [\bufnum, ~b, \rate, 1.3]);
+a = Synth(\buffer, [\bufnum, ~b.[2], \rate, 1.3]);
 a.free;
