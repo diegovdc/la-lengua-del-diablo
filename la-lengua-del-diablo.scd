@@ -77,3 +77,20 @@ Task({
 	})
 }).play
 )
+
+s.boot
+
+~b = SoundFile.collect("/home/atsintli/Music/*", s) //supongo que sería algo así, pero no se como sacar los archivos para reproducirlos
+~b.inspect
+~b.(6)
+
+(
+SynthDef(\buffer, {|bufnum, numchanel = 2, rate = 1|
+	var sig, out;
+	sig = PlayBuf.ar(2, bufnum, rate, loop:1, doneAction:2);
+	out = Out.ar(0, sig)
+}).send(s);
+)
+
+a = Synth(\buffer, [\bufnum, ~b, \rate, 1.3]);
+a.free;
