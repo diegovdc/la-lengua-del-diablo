@@ -35,20 +35,15 @@ var numFramesToDur = {|numFrames|
 };
 
 )
-~getGrabaciones.("paisajes");
+// ~getGrabaciones.("paisajes");
 
 (
-var entrevistas = [
-	(buffer: 'Un enterevista', dur: 50),
-	(buffer: 'enterevista2', dur: 80)
-];
+var entrevistas = ~getGrabaciones.("paisajes");
 
-var composiciones = [
-	(buffer: 'Un compo', dur: 50),
-	(buffer: 'Un compo2', dur: 80)
-];
+var composiciones = ~getGrabaciones.("paisajes");
 
 var paisajes = ~getGrabaciones.("paisajes");
+
 var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes: paisajes);
 
 ~secuencia = (0..5000).inject(
