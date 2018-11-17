@@ -80,10 +80,19 @@ Task({
 
 s.boot
 
-~b = SoundFile.collectIntoBuffers("/home/atsintli/Music/*", s) //supongo que sería algo así . . .
-~b.inspect
-~b.[1]
+(
+var numFramesToDur = {|numFrames|
+	"[numFramesToDur] Esta función debe convertir numframes a duración en segundos".postln;
+	numFrames
+};
+~getGrabaciones = {|carpeta|
+	SoundFile
+	.collectIntoBuffers(thisProcess.nowExecutingPath.dirname++"/"++carpeta++"/*", s)
+	.collect({|buff| (sonido: buff.bufnum, dur: numFramesToDur.(buff.numFrames))})
+};
 
+~paisajes = ~getGrabaciones.("paisajes")
+)
 (
 SynthDef(\buffer, {|bufnum, numchanel = 2, rate = 1|
 	var sig, out;
