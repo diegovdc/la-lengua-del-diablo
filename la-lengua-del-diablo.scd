@@ -1,4 +1,4 @@
-(
+(//~getNextSoundType
 var c = 'composiciones';
 var p = 'paisajes';
 var e = 'entrevistas';
@@ -12,7 +12,7 @@ var miniSecuencias = [
 )
 // ~getNextEvent.(0)
 
-(
+(//~getSilence
 var silences = (5..(30*60));
 var midpoint = (silences.normalizeSum.size/3*2).asInteger;
 var firstPart = silences[0..midpoint]; //primera parte de la curva de ponderancia
@@ -22,6 +22,20 @@ var weights = (firstPart.mirror)[0..silences.size - 1].normalizeSum.postln;
 
 // ~getSilence.()
 
+
+(// ~getGrabaciones
+var numFramesToDur = {|numFrames|
+	"[numFramesToDur] Esta función debe convertir numframes a duración en segundos".postln;
+	numFrames
+};
+~getGrabaciones = {|carpeta|
+	SoundFile
+	.collectIntoBuffers(thisProcess.nowExecutingPath.dirname++"/"++carpeta++"/*", s)
+	.collect({|buff| (sonido: buff.bufnum, dur: numFramesToDur.(buff.numFrames))})
+};
+
+)
+~getGrabaciones.("paisajes");
 
 (
 var entrevistas = [
@@ -34,10 +48,7 @@ var composiciones = [
 	(buffer: 'Un compo2', dur: 80)
 ];
 
-var paisajes = [
-	(buffer: 'Un paisaje', dur: 50),
-	(buffer: 'Un paisaje2', dur: 80)
-];
+var paisajes = ~getGrabaciones.("paisajes");
 var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes: paisajes);
 
 ~secuencia = (0..5000).inject(
@@ -80,19 +91,7 @@ Task({
 
 s.boot
 
-(
-var numFramesToDur = {|numFrames|
-	"[numFramesToDur] Esta función debe convertir numframes a duración en segundos".postln;
-	numFrames
-};
-~getGrabaciones = {|carpeta|
-	SoundFile
-	.collectIntoBuffers(thisProcess.nowExecutingPath.dirname++"/"++carpeta++"/*", s)
-	.collect({|buff| (sonido: buff.bufnum, dur: numFramesToDur.(buff.numFrames))})
-};
 
-~paisajes = ~getGrabaciones.("paisajes")
-)
 (
 SynthDef(\buffer, {|bufnum, numchanel = 2, rate = 1|
 	var sig, out;
