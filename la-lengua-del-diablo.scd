@@ -1,4 +1,5 @@
 (
+('Iniciando servidor').postln;
 s.boot;
 s.doWhenBooted({
 
@@ -34,5 +35,6 @@ s.doWhenBooted({
 	).postln;
 
 });
-('Iniciando servidor'++"\n\n");
+
+('Servidor iniciado'++"\n\n")
 )
