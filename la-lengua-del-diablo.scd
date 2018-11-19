@@ -1,5 +1,4 @@
 (
-~currentPath = thisProcess.nowExecutingPath.dirname;
 s.boot;
 s.doWhenBooted({
 
