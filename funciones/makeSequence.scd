@@ -1,8 +1,8 @@
 (// ~makeSequence
 ~makeSequence = {|getGrabaciones, getNextSoundType, getSilence|
-	var entrevistas = getGrabaciones.("paisajes").scramble;
+	var entrevistas = getGrabaciones.("entrevistas").scramble;
 
-	var composiciones = getGrabaciones.("paisajes").scramble;
+	var composiciones = getGrabaciones.("composiciones").scramble;
 
 	var paisajes = getGrabaciones.("paisajes").scramble;
 

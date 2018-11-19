@@ -4,7 +4,7 @@ var getBufferDuration = {|buffer|
 };
 ~getGrabaciones = {|currentPath, carpeta|
 	SoundFile
-	.collectIntoBuffers(currentPath++"/"++carpeta++"/*", s)
+	.collectIntoBuffers(currentPath++"/audios/"++carpeta++"/*", s)
 	.collect({|buff| (buffer: buff, dur: getBufferDuration.(buff))})
 };
 )
