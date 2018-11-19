@@ -7,6 +7,8 @@ Con SuperCollider, abrir el archivo `init.scd`, poner el cursor sobre la linea 2
 ## Audios
 Todos los audios deberán de agregarse a la carpeta de `audios`. Estos se leeran de tres subcarpetas: `entrevistas`, `composiciones`, `paisajes`. 
 
+Es necesario agregar los archivos manualmente, ya que el repositorio en `github` no cuenta con la capacidad de almacenarlos.
+
 Si los audios no se encuentran en estas carpetas no se cargarán.
 
 
