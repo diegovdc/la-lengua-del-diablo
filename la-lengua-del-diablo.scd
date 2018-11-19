@@ -1,3 +1,9 @@
+(
+s.boot;
+~currentPath = thisProcess.nowExecutingPath.dirname;
+)
+
+
 (//~getNextSoundType
 var c = 'composiciones';
 var p = 'paisajes';
@@ -13,7 +19,8 @@ var miniSecuencias = [
 // ~getNextEvent.(0)
 
 (//~getSilence
-var silences = (5..(30*60));
+// var silences = (5..(30*60));
+var silences = (5..10);
 var midpoint = (silences.normalizeSum.size/3*2).asInteger;
 var firstPart = silences[0..midpoint]; //primera parte de la curva de ponderancia
 var weights = (firstPart.mirror)[0..silences.size - 1].normalizeSum.postln;
@@ -21,28 +28,28 @@ var weights = (firstPart.mirror)[0..silences.size - 1].normalizeSum.postln;
 )
 
 // ~getSilence.()
-
+Buffer
 
 (// ~getGrabaciones
-var numFramesToDur = {|numFrames|
+var numFramesToDur = {|buffer|
 	"[numFramesToDur] Esta función debe convertir numframes a duración en segundos".postln;
-	numFrames
+	buffer.numFrames/(buffer.sampleRate/buffer.numFrames)
 };
 ~getGrabaciones = {|carpeta|
 	SoundFile
-	.collectIntoBuffers(thisProcess.nowExecutingPath.dirname++"/"++carpeta++"/*", s)
-	.collect({|buff| (sonido: buff.bufnum, dur: numFramesToDur.(buff.numFrames))})
+	.collectIntoBuffers(~currentPath++"/"++carpeta++"/*", s)
+	.collect({|buff| (sonido: buff, dur: numFramesToDur.(buff))})
 };
 
 )
 // ~getGrabaciones.("paisajes");
 
-(
-var entrevistas = ~getGrabaciones.("paisajes");
+(// ~secuencia
+var entrevistas = ~getGrabaciones.("paisajes").scramble;
 
-var composiciones = ~getGrabaciones.("paisajes");
+var composiciones = ~getGrabaciones.("paisajes").scramble;
 
-var paisajes = ~getGrabaciones.("paisajes");
+var paisajes = ~getGrabaciones.("paisajes").scramble;
 
 var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes: paisajes);
 
@@ -61,7 +68,7 @@ var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes:
 		var indexes = acc.indexes;
 		indexes[soundType] = soundIndex;
 		(
-			secuencia: acc.secuencia.add((sonido: sonido, dur: sonido.dur,  silencio: silencio)),
+			secuencia: acc.secuencia.add((buffer: sonido.buffer, dur: sonido.dur,  silencio: silencio, type: soundType)),
 			duracion: acc.duracion + sonido.dur + silencio,
 			indexes: indexes
 		)
@@ -71,15 +78,16 @@ var sonidos = (entrevistas: entrevistas, composiciones: composiciones, paisajes:
 
 )
 
-
 (
 Task({
 	~secuencia.do({|event|
-		var wait_ = event.silencio+event.dur;
-		("Esto debería de darle play a" + event.sonido.buffer).postln;
-		("y deberíamos esperar" + wait_ + "segundos, descomentado la siguiente línea \n").postln;
-		// wait_.wait;
-		2.wait; // debería de usarse el código de arriba, pero de momento usamos este para probar
+		var wait_ = event.dur+event.silencio;
+		// event.postln;
+		Synth(\buffer, [\bufnum, event.buffer]);
+		("El siguiente sonido dura" + event.dur + "segundos").postln;
+		("Habrá" + event.silencio + "segundos de silencio").postln;
+		wait_.wait;
+		// 2.wait; // debería de usarse el código de arriba, pero de momento usamos este para probar
 	})
 }).play
 )
@@ -87,13 +95,29 @@ Task({
 s.boot
 
 
+(// ~getGrabaciones
+var getBufferDuration = {|buffer|
+	buffer.numFrames/buffer.sampleRate
+};
+~getGrabaciones = {|carpeta|
+	SoundFile
+	.collectIntoBuffers(~currentPath++"/"++carpeta++"/*", s)
+	.collect({|buff| (buffer: buff, dur: getBufferDuration.(buff))})
+};
+~getGrabaciones.('paisajes')[1].buffer.path.postln;
+~getGrabaciones.('paisajes')[1].dur
+)
+
+
+
+
 (
 SynthDef(\buffer, {|bufnum, numchanel = 2, rate = 1|
 	var sig, out;
-	sig = PlayBuf.ar(2, bufnum, rate, loop:1, doneAction:2);
+	sig = PlayBuf.ar(2, bufnum, rate, loop:0, doneAction:2);
 	out = Out.ar(0, sig)
 }).send(s);
 )
 
-a = Synth(\buffer, [\bufnum, ~b.[2], \rate, 1.3]);
+a = Synth(\buffer, [\bufnum, ~getGrabaciones.('paisajes')[1].buffer]);
 a.free;
