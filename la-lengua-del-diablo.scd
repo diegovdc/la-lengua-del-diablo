@@ -24,7 +24,6 @@ s.doWhenBooted({
 			~getGrabaciones.(~currentPath, _),
 			~getNextSoundType,
 			~getSilence
-
 		)
 	).play;
 
