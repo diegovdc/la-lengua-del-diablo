@@ -1,5 +1,5 @@
 (// ~makeSequence
-~makeSequence = {|getGrabaciones, getNextSoundType, getSilence|
+~makeSequence = {|maxDuration, getGrabaciones, getNextSoundType, getSilence|
 	var entrevistas = getGrabaciones.("entrevistas").scramble;
 
 	var composiciones = getGrabaciones.("composiciones").scramble;
@@ -15,18 +15,22 @@
 			indexes: (entrevistas: -1, composiciones: -1, paisajes: -1), //(sonido: índice)
 		),
 		{|acc, index|
-			// if(acc.duracion > 7horas, {acc}, {corremos todo lo que sigue})
-			var soundType = getNextSoundType.(index);
-			var soundIndex = acc.indexes[soundType]+1;
-			var sonido = sonidos[soundType].wrapAt(soundIndex);
-			var silencio =  getSilence.();
-			var indexes = acc.indexes;
-			indexes[soundType] = soundIndex;
-			(
-				secuencia: acc.secuencia.add((buffer: sonido.buffer, dur: sonido.dur,  silencio: silencio, type: soundType)),
-				duracion: acc.duracion + sonido.dur + silencio,
-				indexes: indexes
-			)
+			if(acc.duracion > maxDuration, {acc}, {
+				var soundType = getNextSoundType.(index);
+				var soundIndex = acc.indexes[soundType]+1;
+				var sonido = sonidos[soundType].wrapAt(soundIndex);
+				var silencio =  getSilence.();
+				var indexes = acc.indexes;
+
+				indexes[soundType] = soundIndex;
+
+				(
+					secuencia: acc.secuencia.add((buffer: sonido.buffer, dur: sonido.dur,  silencio: silencio, type: soundType)),
+					duracion: acc.duracion + sonido.dur + silencio,
+					indexes: indexes
+				)
+			})
+
 		}
 	).secuencia
 };
