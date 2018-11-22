@@ -15,33 +15,21 @@ s.doWhenBooted({
 	}).send(s);
 
 	[// load files
-		"getSilence.scd",
+		"getSilence.scd", // importa ~getSilenceFromBlocks
 		"getNextSoundType.scd",
-		"getGrabaciones.scd",
-		"makeSequence.scd",
-		"player.scd",
+		"lazy-player.scd",
 	].do({|file|
 		(~currentPath++"/funciones/"++file).load
 	});
 
-	makeSequence = {|duration, silenceRange|
-		~makeSequence.(
-			duration,
-			~getGrabaciones.(~currentPath, _),
-			~getNextSoundType,
-			~getSilence.(silenceRange)
+	~lazyPlayer.(
+		~getNextSoundType,
+		~getSilenceFromBlocks.(
+			[(5..30),   (15..15*60), (5*60..30*60)],
+			  tresHoras, dosHoras,    tresHoras,
 		)
-	};
+	).play;
 
-	sequence = [
-	     makeSequence.(dosHoras, (1..60)),
-	     makeSequence.(tresHoras, (15..15*60)),
-	     makeSequence.(dosHoras, (5*60..30*60))
-	]
-	// .scramble // descomentar esta línea si se quiere que estos bloques queden en órdenes distintos con cada compilación
-	.flatten;
-
-	~player.(sequence).play;
 
 	3.do({("\n").postln});
 	(

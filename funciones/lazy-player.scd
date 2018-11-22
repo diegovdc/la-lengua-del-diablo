@@ -8,7 +8,7 @@ var getPaths = {|carpeta|
 	.collect(_.fullPath)
 };
 
-~player2 = {|getNextSoundType, getSilence|
+~lazyPlayer = {|getNextSoundType, getSilence|
 	var prettyEventTypes = (
 		composiciones: 'composición',
 		paisajes: 'paisaje sonoro',
