@@ -2,5 +2,5 @@
 // Para incializar "La Lengua del Diablo", poner el cursor sobre esta línea
 // y pulsar `cmd+enter`
 ~currentPath = thisProcess.nowExecutingPath.dirname;
-(~currentPath++"/la-lengua-del-diablo.scd").load;
+(~currentPath++"/la-lengua-del-diablo-2.scd").load;
 )
