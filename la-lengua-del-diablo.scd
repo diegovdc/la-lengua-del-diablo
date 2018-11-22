@@ -8,6 +8,8 @@ s.doWhenBooted({
 
 	var makeSequence = {}, sequence = []; //ver abajo
 
+	('Servidor iniciado'++"\n\n")
+
 	SynthDef(\buffer, {|bufnum, numchanel = 2, rate = 1|
 		var sig, out;
 		sig = PlayBuf.ar(2, bufnum, rate, loop:0, doneAction:2);
@@ -34,11 +36,9 @@ s.doWhenBooted({
 	3.do({("\n").postln});
 	(
 		"========================================\n\n"++
-		'Iniciando "La Lengua del Diablo"'++
+		'     Iniciando "La Lengua del Diablo"'++
 		"\n\n========================================\n\n"
 	).postln;
 
 });
-
-('Servidor iniciado'++"\n\n")
 )
