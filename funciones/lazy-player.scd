@@ -70,7 +70,7 @@ var getPaths = {|carpeta|
 						(duration).asInt + "segundos.").postln;
 
 					("Habrá" +
-						(silencio + 1 /*ver 1.wait más abajo*/) +
+						(silencio + 3 /*ver 1.wait más abajo*/) +
 						"segundos de silencio.").postln;
 
 					"\n\n".postln;
@@ -87,7 +87,7 @@ var getPaths = {|carpeta|
 
 
 			});
-			1.wait;//previene que el Task loopée antes de que el action de Buffer.read se ejecute
+			3.wait;//previene que el Task loopée antes de que el action de Buffer.read se ejecute
 
 			// ("nextWait:"+(nextWait+1)).postln;
 			nextWait.wait;
