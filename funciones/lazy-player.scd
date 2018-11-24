@@ -1,14 +1,12 @@
 
 (// ~player2
-var sieteHoras = 60*60*7;
-
 var getPaths = {|carpeta|
    PathName(~currentPath++'/audios/'++carpeta)
 	.files
 	.collect(_.fullPath)
 };
 
-~lazyPlayer = {|getNextSoundType, getSilence|
+~lazyPlayer = {|totalDuration, getNextSoundType, getSilence|
 	var prettyEventTypes = (
 		composiciones: 'composición',
 		paisajes: 'paisaje sonoro',
@@ -48,7 +46,7 @@ var getPaths = {|carpeta|
 				var indexes = playerState.indexes;
 				indexes[soundType] = indexes[soundType] + 1;
 
-				if(playerState.duracion < sieteHoras, {
+				if(playerState.duracion < totalDuration, {
 					Synth(\buffer, [\bufnum, buffer]);
 
 					playerState = (

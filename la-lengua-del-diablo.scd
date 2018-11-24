@@ -2,6 +2,7 @@
 ('Iniciando servidor').postln;
 s.boot;
 s.doWhenBooted({
+	var treintaMinutos = 60*30;
 	var tresHoras = 60*60*3;
 	var dosHoras = 60*60*2;
 	var sieteHoras = 60*60*7;
@@ -23,10 +24,11 @@ s.doWhenBooted({
 	});
 
 	~lazyPlayer.(
+		sieteHoras,
 		~getNextSoundType,
 		~getSilenceFromBlocks.(
-			[(5..30),   (15..15*60), (5*60..30*60)],
-			  tresHoras, dosHoras,    tresHoras,
+			[(2*60..15*60),   (15..15*60),   (5*60..30*60)],
+			  tresHoras,       dosHoras,      tresHoras,
 		)
 	).play;
 
