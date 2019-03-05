@@ -8,14 +8,15 @@
 };
 
 // ~getSilenceFromBlocks :: ([[Number]] , Number, Number, Number) -> Number -> Number
-~getSilenceFromBlocks = {|ranges_array, block1, block2, block3|
+~getSilenceFromBlocks = {|ranges_array, block1, block2, block3, block4|
 	var getSilences = ranges_array.collect(~getSilence);
 	{|duration|
 		case
-		{duration < block1}                      {getSilences[0].()}
-		{duration < (block1 + block2)}           {getSilences[1].()}
-		{duration < (block1 + block2 + block3)}  {getSilences[2].()}
-		{true}                                   {getSilences[1].()};
+		{duration < block1}                               {getSilences[0].()}
+		{duration < (block1 + block2)}                    {getSilences[1].()}
+		{duration < (block1 + block2 + block3)}           {getSilences[2].()}
+		{duration < (block1 + block2 + block3 + block4)}  {getSilences[3].()}
+		{true}                                            {getSilences[1].()};
 	}
 
 };

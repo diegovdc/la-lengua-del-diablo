@@ -85,7 +85,7 @@ var getPaths = {|carpeta|
 
 
 			});
-			3.wait;//previene que el Task loopée antes de que el action de Buffer.read se ejecute
+			5.wait;//previene que el Task loopée antes de que el action de Buffer.read se ejecute
 
 			// ("nextWait:"+(nextWait+1)).postln;
 			nextWait.wait;
